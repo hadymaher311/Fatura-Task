@@ -16,6 +16,10 @@ class TodosController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
+        $this->middleware('role_or_permission:view todo|super')->only(['index', 'show']);
+        $this->middleware('role_or_permission:create todo|super')->only(['store']);
+        $this->middleware('role_or_permission:edit todo|super')->only(['update']);
+        $this->middleware('role_or_permission:delete todo|super')->only(['destroy']);
     }
 
     /**
