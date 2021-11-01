@@ -8,9 +8,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
+    /**
+     * make new instance of the class
+     */
+    public function __construct() {
+        $this->middleware('auth:sanctum')->only(['logout']);
+    }
+
     /**
      * login and authenticate user
      * 
@@ -32,5 +40,17 @@ class LoginController extends Controller
             'token_type' => 'Bearer',
             'user' => $user
         ]);
+    }
+
+    /**
+     * logout user
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function logout()
+    {
+        request()->user()->currentAccessToken()->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
