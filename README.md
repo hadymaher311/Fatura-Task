@@ -1,64 +1,58 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Fatura Authentication and Authorization Task
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This task is made for Fatura Egypt Company that requires secure authentication and authorization system for single user.
 
-## About Laravel
+## Description
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The application built with Laravel framework and it uses [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum) for authenticating the users and uses [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction) for authorizing the users for actions.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Authentication
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+I had alot of options to make authentication system using diffrent packages and techniques but I choosed [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum) as I start with fresh Laravel installation that is chipped with [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum) already.
 
-## Learning Laravel
+I had other options like [JWT](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/), [Laravel Fortify](https://laravel.com/docs/8.x/fortify), [Laravel Jetstream](https://jetstream.laravel.com/2.x/introduction.html), [Laravel Passport](https://laravel.com/docs/8.x/passport) and [Laravel breeze](https://laravel.com/docs/8.x/starter-kits#laravel-breeze) as other options and I have the experience for using all of them but because of the requirments I choosed to use [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum) as easy, simple and clean option.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Authorization
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+For authorization demo I have built minimal CRUD for todo list and restricted every action to permission type but I have made role permission based system to group the permissions in one role and apply to the user although the package [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction) has direct permissions, I don't perfer to use it as it's more clean to use role permission based system.
 
-## Laravel Sponsors
+Also for authorization [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum) has token abilities that can work like authorization system but I don't find it neat to use so I always recommend using [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction) package for more clean and scalable authorization system.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+The architecture of the authorization system is that User has role and every role has multiple permissions that allow him to do some functionalities, and we have "super" user who can do anything without the need of adding all permissions to him.
 
-### Premium Partners
+![role permission model](./docs/role-permission-model.jpg)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Installation
 
-## Contributing
+-   After cloning the repository you need to run the next command **(make sure that you have [composer](https://getcomposer.org/download/) installed on your machine)**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+```
 
-## Code of Conduct
+-   copy `.env.example` file to `.env` file and then start to add your environment variables [required env variables to this project are database credentials] **(if you are going for production environment I don't recommend do that with `.env` file because of security issues that you can even google env files and expose senstive data so I recommend to do that with config files in config directory)**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+-   Generate application key
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan key:generate
+```
+
+-   Migrate your database and seed it with random data using
+
+```bash
+php artisan migrate --seed
+```
+
+-   You are ready to start your server at `localhost:8000`
+
+```bash
+php artisan serve
+```
 
 ## License
 
