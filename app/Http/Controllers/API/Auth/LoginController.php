@@ -15,8 +15,9 @@ class LoginController extends Controller
     /**
      * make new instance of the class
      */
-    public function __construct() {
-        $this->middleware('auth:sanctum')->only(['logout']);
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['logout', 'me']);
     }
 
     /**
@@ -52,5 +53,15 @@ class LoginController extends Controller
         request()->user()->currentAccessToken()->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * get authenticated user
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function me()
+    {
+        return response()->json(['user' => auth()->user()]);
     }
 }

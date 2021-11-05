@@ -54,6 +54,12 @@ php artisan migrate --seed
 php artisan serve
 ```
 
+## testing
+
+You can use manual testing using [Postman collection file](./docs/Fatura.postman_collection.json) in `docs` folder.
+
+I have experience in using PHPUnit as automated testing tool but mostly I use postman for api testing with my projects.
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

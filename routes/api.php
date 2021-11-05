@@ -17,5 +17,6 @@ use App\Http\Controllers\API\TodosController;
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/me', [LoginController::class, 'me']);
 
 Route::apiResource('todo', TodosController::class);
